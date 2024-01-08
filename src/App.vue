@@ -1,17 +1,35 @@
 <template>
-  <img alt="Vue logo" src="./assets/logo.png">
-  <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <v-app>
+    <Navbar v-if="route.name !== 'login'" />
+    <v-main  
+      min-height="80%"
+      light>
+      <router-view />
+    </v-main>
+  </v-app>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import Navbar from "./components/Navbar.vue";
+import { useDisplay } from "vuetify";
+import { useRoute } from "vue-router";
 
 export default {
-  name: 'App',
+  name: "App",
+  setup() {
+    const { mdAndDown, lgAndUp } = useDisplay()
+    const route = useRoute();
+
+    return {
+      mdAndDown,
+      lgAndUp,
+      route
+    };
+  },
   components: {
-    HelloWorld
-  }
-}
+    Navbar,
+  },
+};
 </script>
 
 <style>
@@ -22,5 +40,9 @@ export default {
   text-align: center;
   color: #2c3e50;
   margin-top: 60px;
+}
+
+#content {
+  padding: 0px;
 }
 </style>
