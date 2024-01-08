@@ -31,16 +31,6 @@ const store = createStore({
       localStorage.removeItem('access_token');
       window.location = '/login';
     },
-
-    getAccessToken() {
-      return localStorage.getItem('access_token');
-    },
-
-    async clearCredentials({ commit }) {
-      commit('CLEAR_AUTH_USER');
-      localStorage.removeItem('user');
-      localStorage.removeItem('access_token');
-    }
   },
   modules: {
   }

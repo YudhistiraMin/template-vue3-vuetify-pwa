@@ -63,6 +63,7 @@
 <script setup>
 import { ref, onMounted } from "vue";
 import store from '@/store'
+import { postLogin } from '@/plugins/Axios';
 
 const form = ref({
   email: "",
@@ -85,9 +86,10 @@ const alert = ref({
 const handleLogin = async () => {
   try {
       loading.value = true;
-      const response = await postLogin('/auth/login', {
+      const response = await postLogin('/login', {
           data: form.value
       });
+      console.log('isi response', response);
       rules.value.email = '';
       rules.value.password = '';
       loading.value = false;

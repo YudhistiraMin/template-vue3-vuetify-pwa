@@ -1,11 +1,15 @@
 import axios from "axios";
-import { useAuthStore } from "@/store/index";
+import store from '@/store'
+import { TokenService } from "@/service/Storage.Service.js"
 
 const { VUE_APP_API_URL } = process.env;
 
+function getAccessToken() {
+  return TokenService.getToken()
+}
+
 export function request(method, url, config, withAuth = true) {
-  const authStore = useAuthStore();
-  const token = authStore.getAccessToken();
+  const token = getAccessToken();
   const baseURL = VUE_APP_API_URL;
   const { params, data, headers } = config;
   const defaultHeader = {
@@ -31,7 +35,7 @@ export function request(method, url, config, withAuth = true) {
           error.response.status === 401 &&
           withAuth
         ) {
-          authStore.clearCredentials();
+          TokenService.removeToken()
           window.location = `/login`;
         }
         reject(error.response);
