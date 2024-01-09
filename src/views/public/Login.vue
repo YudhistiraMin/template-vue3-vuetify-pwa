@@ -10,14 +10,14 @@
             <v-card-title align="center">P2H System</v-card-title>
             <v-card-subtitle>Selamat datang di P2H System! </v-card-subtitle>
             <v-divider class="my-4"></v-divider>
-            <v-alert
+            <!-- <v-alert
               v-if="alert.status"
               :color="alert.color"
               :icon="alert.icon"
               :title="alert.title"
               class="mx-4"
               :text="alert.message"
-            ></v-alert>
+            ></v-alert> -->
             <v-card-item>
               <v-form validate-on="submit lazy" @submit.prevent="handleLogin">
                 <v-text-field
@@ -52,6 +52,11 @@
                   rounded
                 ></v-btn>
               </v-form>
+              <div>
+                <v-alert type="error" text dense prominent 
+                  v-if="alert.message.length > 0" >
+                </v-alert>
+              </div>
             </v-card-item>
           </v-card>
         </v-col>

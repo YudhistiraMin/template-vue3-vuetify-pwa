@@ -1,9 +1,9 @@
 import axios from "axios";
-import store from '@/store'
 import { TokenService } from "@/service/Storage.Service.js"
 
 const { VUE_APP_API_URL } = process.env;
 
+console.log('pantek', VUE_APP_API_URL);
 function getAccessToken() {
   return TokenService.getToken()
 }
