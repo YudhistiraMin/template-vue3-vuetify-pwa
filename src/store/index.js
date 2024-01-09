@@ -3,34 +3,25 @@ import { createStore } from 'vuex'
 const store = createStore({
   state: {
     auth_user: null,
+    token: '',
     authenticated: false,
-    roles: '',
+    user: {},
   },
   getters: {
-    user: state => state.auth_user
+    // user: state => state.auth_user
   },
   mutations: {
-    SET_AUTH_USER(state, user) {
-      state.auth_user = user;
+    SET_TOKEN(state, accessToken) {
+      state.token = accessToken
+      state.authenticated = true
     },
-    CLEAR_AUTH_USER(state) {
-      state.auth_user = null;
-    }
+    SET_USER(state, accessUser) {
+      console.log('isi staate', state);
+      console.log('isi access', accessUser);
+      state.user = accessUser
+    },
   },
   actions: {
-    async login({ commit }, data) {
-      commit('SET_AUTH_USER', data.user);
-      localStorage.setItem('user', JSON.stringify(data.user));
-      localStorage.setItem('access_token', data.access_token);
-      window.location = '/';
-    },
-
-    async logout({ commit }) {
-      await commit('CLEAR_AUTH_USER');
-      localStorage.removeItem('user');
-      localStorage.removeItem('access_token');
-      window.location = '/login';
-    },
   },
   modules: {
   }

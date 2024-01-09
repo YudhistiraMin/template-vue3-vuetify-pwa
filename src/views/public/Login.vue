@@ -10,35 +10,40 @@
             <v-card-title align="center">P2H System</v-card-title>
             <v-card-subtitle>Selamat datang di P2H System! </v-card-subtitle>
             <v-divider class="my-4"></v-divider>
-            <!-- <v-alert
+            <v-alert
               v-if="alert.status"
               :color="alert.color"
               :icon="alert.icon"
               :title="alert.title"
-              class="mx-4"
+              class="mx-4 text-left"
               :text="alert.message"
-            ></v-alert> -->
+            ></v-alert>
             <v-card-item>
               <v-form validate-on="submit lazy" @submit.prevent="handleLogin">
                 <v-text-field
-                  density="comfortable"
+                  density="default"
                   type="email"
                   prepend-inner-icon="mdi-email-outline"
                   label="Email"
                   variant="outlined"
                   color="purple"
+                  hide-details
+                  class="mb-6 mt-4"
+                  v-model="form.email"
                   rules="email|required"
                   :error-messages="rules.email"
                 ></v-text-field>
                 <v-text-field
                   :append-inner-icon="showPassword ? 'mdi-eye-off' : 'mdi-eye'"
                   :type="showPassword ? 'text' : 'password'"
-                  density="comfortable"
+                  density="default"
                   color="purple"
                   prepend-inner-icon="mdi-lock-outline"
                   label="Kata sandi"
                   variant="outlined"
-                  rules="required"
+                  hide-details
+                  class="mb-6"
+                  v-model="form.password"
                   @click:append-inner="showPassword = !showPassword"
                   :error-messages="rules.password"
                 ></v-text-field>
@@ -52,11 +57,6 @@
                   rounded
                 ></v-btn>
               </v-form>
-              <div>
-                <v-alert type="error" text dense prominent 
-                  v-if="alert.message.length > 0" >
-                </v-alert>
-              </div>
             </v-card-item>
           </v-card>
         </v-col>
@@ -69,6 +69,7 @@
 import { ref, onMounted } from "vue";
 import store from '@/store'
 import { postLogin } from '@/plugins/Axios';
+import { TokenService } from "@/service/Storage.Service.js"
 
 const form = ref({
   email: "",
@@ -94,11 +95,17 @@ const handleLogin = async () => {
       const response = await postLogin('/login', {
           data: form.value
       });
-      console.log('isi response', response);
+      console.log('isi token',response.data.access_token);
+      console.log('isi data',response.data);
       rules.value.email = '';
       rules.value.password = '';
       loading.value = false;
-      store.dispatch('login', response.data);
+      console.log('ffaaa', JSON.stringify(response.data));
+      TokenService.saveToken(
+        response.data.access_token,
+        JSON.stringify(response.data)
+      )
+      // window.location = '/dashboard'
     } catch (error) {
       loading.value = false;
       if (error.status === 422) {
@@ -118,7 +125,7 @@ const handleLogin = async () => {
       } else {
           alert.value.title = 'Error';
           alert.value.status = true;
-          alert.value.message = error.data.message;
+          alert.value.message = error.data?.message;
           alert.value.color = 'error';
           alert.value.icon = '$error';
       }

@@ -59,7 +59,7 @@
         </v-list-item>
       </v-list>
 
-      <div class="pr-6 cursor-pointer hidden-sm-and-down">
+      <div class="pr-6 cursor-pointer hidden-sm-and-down"  @click="logout">
         <v-card-title class="justify-center pb-1">
           <v-icon color="#ff6161">mdi-logout-variant</v-icon>
         </v-card-title>
@@ -75,6 +75,7 @@
 import { ref } from "vue";
 import { useDisplay } from "vuetify";
 import { useRoute } from "vue-router";
+import { TokenService } from "@/service/Storage.Service.js"
 
 const { mdAndDown } = useDisplay()
 const drawer = ref(true);
@@ -97,9 +98,12 @@ const menu = ref([
   },
 ]);
 const route = useRoute();
+
 function logout() {
-  return (window.location = "/login");
+  TokenService.removeToken()
+  window.location = '/'
 }
+
 </script>
 
 <style>
