@@ -23,7 +23,7 @@ router.beforeEach((to, from, next) => {
   const isPublic = to.matched.some(record => record.meta.public)
   if (!isAll && !isPublic && !authenticated) {
     return next({
-      path: "/login"
+      path: "/dashboard" //dont forget to change slash login
     })
   }
   if (authenticated && onlyLoggedOut) {

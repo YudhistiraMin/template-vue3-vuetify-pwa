@@ -37,7 +37,7 @@
           class="mx-3"
           vertical
           style="min-height: 25px !important;
-          height: 25px
+          height: 25px;
           min-width: 3px;
           margin-top: auto;
           margin-bottom: auto;

@@ -95,12 +95,9 @@ const handleLogin = async () => {
       const response = await postLogin('/login', {
           data: form.value
       });
-      console.log('isi token',response.data.access_token);
-      console.log('isi data',response.data);
       rules.value.email = '';
       rules.value.password = '';
       loading.value = false;
-      console.log('ffaaa', JSON.stringify(response.data));
       TokenService.saveToken(
         response.data.access_token,
         JSON.stringify(response.data)
